@@ -1,0 +1,103 @@
+openapi: 3.0.1
+info:
+  title: Mobi Agent Trip Planner Plugin
+  description: Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights..
+  version: 'v1'
+servers:
+  - url: https://proxy.takemobi.io
+paths:
+  /mobility-planner/demo/v2/problem/chatgpt:
+    post:
+      operationId: createItinerary
+      summary: Create a travel itinerary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/itineraryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/itineraryResponse'
+components:
+  schemas:
+    itineraryRequest:
+      type: object
+      properties:
+        trip_start_time:
+          type: integer
+          format: int64
+          description: The start time of the trip in UNIX timestamp.
+        trip_end_time:
+          type: integer
+          format: int64
+          description: The end time of the trip in UNIX timestamp.
+        origin:
+          $ref: '#/components/schemas/location'
+          description: The origin of the trip.
+        destination:
+          $ref: '#/components/schemas/location'
+          description: The destination of the trip.
+      required:
+        - trip_start_time
+        - trip_end_time
+        - origin
+        - destination
+    itineraryResponse:
+      type: object
+      properties:
+        solution:
+          $ref: '#/components/schemas/itinerarySolution'
+          description: The detailed solution object to the itinerary request.
+    itinerarySolution:
+      type: object
+      properties:
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/itineraryActivity'
+          description: The planned activities in the itinerary solution.
+      required:
+        - activities
+    itineraryActivity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the activity.
+        scheduled_start_time:
+          type: integer
+          format: int64
+          description: The scheduled start time of the activity in UNIX timestamp.
+        scheduled_end_time:
+          type: integer
+          format: int64
+          description: The scheduled end time of the activity in UNIX timestamp.
+      required:
+        - name
+        - scheduled_start_time
+        - scheduled_end_time
+    location:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the location.
+        lat:
+          type: number
+          minimum: -90
+          maximum: 90
+          description: The latitude of the location.
+        lng:
+          type: number
+          minimum: -180
+          maximum: 180
+          description: The longitude of the location.
+      required:
+        - name
+        - lat
+        - lng

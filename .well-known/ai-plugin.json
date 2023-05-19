@@ -1,0 +1,18 @@
+{
+    "schema_version": "v1",
+    "name_for_human": "Trip Planner Plugin",
+    "name_for_model": "planner",
+    "description_for_human": "Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights.",
+    "description_for_model": "Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights.",
+    "auth": {
+        "type": "none"
+    },
+    "api": {
+        "type": "openapi",
+        "url": "https://proxy.takemobi.io/openapi.yaml",
+        "is_user_authenticated": false
+    },
+    "logo_url": "https://assets.website-files.com/620c7c694fedbc41487cdf42/620c8402c6434fe65a72e500_logo_white.svg",
+    "contact_email": "support@takemobi.com",
+    "legal_info_url": "http://www.takemobi.com/legal"
+}
