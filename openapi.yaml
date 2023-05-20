@@ -101,7 +101,7 @@ components:
           type: integer
           minimum: 1
           maximum: 4
-          description: The number of infants (age 0 to 2) in the trip.
+          description: The number of infants (under age 2) in the trip.
       required:
         - adults
     location:
