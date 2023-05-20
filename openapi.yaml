@@ -28,23 +28,26 @@ components:
     itineraryRequest:
       type: object
       properties:
-        trip_start_time:
-          type: integer
-          format: int64
-          description: The start time of the trip in UNIX timestamp.
-        trip_end_time:
-          type: integer
-          format: int64
-          description: The end time of the trip in UNIX timestamp.
+        trip_start_datetime:
+          type: string
+          format: date-time
+          description: The start date time of the trip, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-07-21T17:32:28Z.
+        trip_end_datetime:
+          type: string
+          format: date-time
+          description: The end date time of the trip, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-08-21T17:32:28Z.
         origin:
           $ref: '#/components/schemas/location'
           description: The origin of the trip.
         destination:
           $ref: '#/components/schemas/location'
           description: The destination of the trip.
+        traveler_information:
+          $ref: '#/components/schemas/travelerInformation'
+          description: Information on the number of travelers of different types in this trip.
       required:
-        - trip_start_time
-        - trip_end_time
+        - trip_start_datetime
+        - trip_end_datetime
         - origin
         - destination
     itineraryResponse:
@@ -81,6 +84,26 @@ components:
         - name
         - scheduled_start_time
         - scheduled_end_time
+    travelerInformation:
+      type: object
+      properties:
+        adults:
+          type: integer
+          minimum: 1
+          maximum: 9
+          description: The number of adults (age 18 or higher) in the trip.
+        children:
+          type: integer
+          minimum: 1
+          maximum: 9
+          description: The number of children (age 2 to 17) in the trip.
+        infants:
+          type: integer
+          minimum: 1
+          maximum: 4
+          description: The number of infants (age 0 to 2) in the trip.
+      required:
+        - adults
     location:
       type: object
       properties:
