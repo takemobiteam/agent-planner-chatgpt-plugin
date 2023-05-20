@@ -1,9 +1,9 @@
 {
     "schema_version": "v1",
-    "name_for_human": "Trip Planner Plugin",
+    "name_for_human": "Mobi Agent Trip Planner Plugin",
     "name_for_model": "planner",
-    "description_for_human": "Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights.",
-    "description_for_model": "Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights.",
+    "description_for_human": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.",
+    "description_for_model": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.",
     "auth": {
         "type": "none"
     },
