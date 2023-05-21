@@ -45,6 +45,145 @@ components:
         traveler_information:
           $ref: '#/components/schemas/travelerInformation'
           description: Information on the number of travelers of different types in this trip.
+        selected_accommodation_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Hotel",
+              "Motel",
+              "Hotel Resort",
+              "Inn",
+              "Bed & Breakfast",
+              "Guest House",
+              "Condo",
+              "All-Inclusive",
+              "Cabin",
+              "Chalet",
+              "Cottage",
+              "Ranch",
+              "Villa",
+              "Lodge",
+              "Apartment",
+              "Private Vacation Home",
+              "House Boat",
+              "Ryokan",
+              "Tree House",
+              "Apart-hotel",
+              "Condominium Resort",
+              "Caravan Park",
+              "Riad",
+              "Country House",
+              "Pension",
+              "Residence",
+              "TownHouse",
+              "Castle",
+              "Palace",
+              "5 star hotel",
+              "4.5 star hotel",
+              "4 star hotel",
+              "3.5 star hotel",
+              "3 star hotel",
+              "2.5 star hotel",
+              "2 star hotel"
+            ]
+          }
+          description: A list of accommodation related tags that describe the desired accommodation options in the trip.
+        selected_activity_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Scuba diving",
+              "Photoshoot",
+              "People watching",
+              "Fishing",
+              "Amusement park",
+              "Massage & spa",
+              "Museum",
+              "Picnic",
+              "Hot spring",
+              "Snorkeling",
+              "Skiing",
+              "Ice skating",
+              "Walking",
+              "Food & drinks",
+              "Karaoke",
+              "Fireworks",
+              "Sky diving",
+              "Trip",
+              "Food & tasting",
+              "Rock climbing",
+              "Hiking",
+              "Swimming",
+              "Dancing",
+              "Biking",
+              "Lazer shooting game",
+              "Jogging",
+              "Escape room"
+            ]
+          }
+          description: A list of activity related tags that describe the desired activities to plan for the trip.
+        selected_dining_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Bib Gourmand",
+              "One MICHELIN Star",
+              "Two MICHELIN Stars",
+              "Three MICHELIN Stars",
+              "The MICHELIN Plate",
+              "Breakfast",
+              "Late Night",
+              "Drinks",
+              "Lunch",
+              "Dinner",
+              "Beach",
+              "Buffet",
+              "Family Style",
+              "Jazz Bar",
+              "Live Music",
+              "Non-smoking restaurants",
+              "Outdoor Seating",
+              "Waterfront",
+              "Wheelchair Accessible",
+              "Halal",
+              "Vegan Options",
+              "Gluten Free Options",
+              "Vegetarian Friendly",
+              "Kosher",
+              "Sit down",
+              "Fast food",
+              "Cafe",
+              "Bar",
+              "Pub",
+              "Steakhouse",
+              "Deli",
+              "Grill",
+              "Diner",
+              "Gastropub",
+              "Brew Pub",
+              "Dining bars",
+              "Beer restaurants"
+            ]
+          }
+          description: A list of food and dining related tags that describe the desired dining options to plan for the trip.
+        selected_flight_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Economy",
+              "Premium Economy",
+              "Business",
+              "First",
+              "Non-stop",
+              "One-stop",
+              "Two-stop"
+            ]
+          }
+          description: A list of flight related tags that describe the desired flight options in the trip.
       required:
         - trip_start_datetime
         - trip_end_datetime
