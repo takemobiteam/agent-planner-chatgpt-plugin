@@ -3,7 +3,7 @@
     "name_for_human": "Mobi Agent Trip Planner Plugin",
     "name_for_model": "planner",
     "description_for_human": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.",
-    "description_for_model": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.",
+    "description_for_model": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan. The plugin requires: 1) the latitude/longitude of the user's origin; 2) the latitude/longitude of the user's destination; 3) the start and end dates of the trips; and 4) the number of adults and children travelling. The plugin also takes optional arguments: 1) selected_activity_tags - descriptions things the user wants to do; 2) selected_accommodation_tags - descriptions of accommodation preferences; selected_dining_tags - descriptions of dining preferences; and selected_flight_tags - descriptions of flight preferences",
     "auth": {
         "type": "none"
     },
