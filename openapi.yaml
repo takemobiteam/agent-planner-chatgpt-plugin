@@ -216,22 +216,22 @@ components:
     ItineraryResponse:
       type: object
       properties:
-        solution:
-          $ref: '#/components/schemas/ItinerarySolution'
-          description: The detailed solution object to the itinerary request.
-        deeplink:
-          type: string
-          description: The url to a webpage in which users can view and further customize the trip.
-    ItinerarySolution:
-      type: object
-      properties:
         activities:
           type: array
           items:
             $ref: '#/components/schemas/ItineraryActivity'
-          description: The planned activities in the itinerary solution.
+          description: The planned activities in the itinerary.
+        price:
+          type: array
+          items:
+            $ref: '#/components/schemas/Price'
+          description: The price of the planned itinerary.
+        deeplink:
+          type: string
+          description: The deeplink url to a webpage in which users can view and further customize the trip.
       required:
         - activities
+        - deeplink
     ItineraryActivity:
       type: object
       properties:
@@ -239,16 +239,19 @@ components:
           type: string
           description: The name of the activity.
         scheduled_start_time:
-          type: integer
-          format: int64
-          description: The scheduled start time of the activity in UNIX timestamp.
+          type: string
+          format: date-time
+          description: The start date time of the activity, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-07-21T17:32:28Z.
         scheduled_end_time:
-          type: integer
-          format: int64
-          description: The scheduled end time of the activity in UNIX timestamp.
-        source:
-          $ref: '#/components/schemas/Source'
-          description: The source object for the activity in the solution.
+          type: string
+          format: date-time
+          description: The end date time of the activity, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-08-21T17:32:28Z.
+        more_information_url:
+          type: string
+          description: The url to the activity's website for more information.
+        booking_url:
+          type: string
+          description: The booking link for this activity.
       required:
         - name
         - scheduled_start_time
@@ -293,18 +296,15 @@ components:
         - name
         - lat
         - lng
-    Source:
+    Price:
       type: object
       properties:
-        content:
-          $ref: '#/components/schemas/Content'
-          description: The content object for the activity in the itinerary.
-    Content:
-      type: object
-      properties:
-        website:
+        currency:
           type: string
-          description: The url to the activity's website.
-        booking_url:
-          type: string
-          description: The booking link for booking this activity.
+          description: The currency of the price.
+        amount:
+          type: number
+          description: The amount of the price.
+      required:
+        - currency
+        - amount
