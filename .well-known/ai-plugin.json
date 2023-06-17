@@ -9,7 +9,7 @@
     },
     "api": {
         "type": "openapi",
-        "url": "https://fareportal-staging.takemobi.io/openapi.yaml",
+        "url": "https://proxy.takemobi.io/openapi.yaml",
         "is_user_authenticated": false
     },
     "logo_url": "https://avatars.githubusercontent.com/u/5629839",

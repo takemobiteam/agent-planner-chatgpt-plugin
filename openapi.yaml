@@ -4,7 +4,7 @@ info:
   description: Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights..
   version: 'v1'
 servers:
-  - url: https://fareportal-staging.takemobi.io
+  - url: https://proxy.takemobi.io
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
@@ -30,12 +30,12 @@ components:
       properties:
         trip_start_datetime:
           type: string
-          format: date-time
-          description: The start date time of the trip, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-07-21T17:32:28Z.
+          format: date
+          description: The start date of the trip. For example, 2017-07-21.
         trip_end_datetime:
           type: string
-          format: date-time
-          description: The end date time of the trip, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-08-21T17:32:28Z.
+          format: date
+          description: The end date of the trip. For example, 2017-08-21.
         origin_name:
           type: string
           description: The name of the origin of the trip.
@@ -105,7 +105,14 @@ components:
               "3.5 star hotel",
               "3 star hotel",
               "2.5 star hotel",
-              "2 star hotel"
+              "2 star hotel",
+              "Marriott",
+              "Hilton Hotels",
+              "IHG",
+              "Hyatt Hotels",
+              "Best Western",
+              "Ritz-Carlton",
+              "Four Seasons"
             ]
           }
           description: A list of accommodation related tags that describe the desired accommodation options in the trip.
@@ -154,11 +161,6 @@ components:
               "Two MICHELIN Stars",
               "Three MICHELIN Stars",
               "The MICHELIN Plate",
-              "Breakfast",
-              "Late Night",
-              "Drinks",
-              "Lunch",
-              "Dinner",
               "Beach",
               "Buffet",
               "Family Style",
@@ -200,7 +202,17 @@ components:
               "First",
               "Non-stop",
               "One-stop",
-              "Two-stop"
+              "Two-stop",
+              "Alaska Airlines",
+              "American Airlines",
+              "Delta",
+              "Hawaiian Airlines",
+              "JetBlue Airways",
+              "Southwest Airlines",
+              "United",
+              "Spirit Airlines",
+              "Sun Country Airlines",
+              "Frontier Airlines"
             ]
           }
           description: A list of flight related tags that describe the desired flight options in the trip.
@@ -226,9 +238,9 @@ components:
           items:
             $ref: '#/components/schemas/Price'
           description: The price of the planned itinerary.
-        deeplink:
+        url:
           type: string
-          description: The deeplink url to a webpage in which users can view and further customize the trip.
+          description: The url to a webpage in which users can visualize and further customize the itinerary.
       required:
         - activities
         - deeplink
