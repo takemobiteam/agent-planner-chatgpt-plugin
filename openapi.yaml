@@ -4,7 +4,7 @@ info:
   description: Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights..
   version: 'v1'
 servers:
-  - url: https://proxy.takemobi.io
+  - url: https://fareportal-staging.takemobi.io
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
@@ -15,17 +15,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/itineraryRequest'
+              $ref: '#/components/schemas/ItineraryRequest'
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/itineraryResponse'
+                $ref: '#/components/schemas/ItineraryResponse'
 components:
   schemas:
-    itineraryRequest:
+    ItineraryRequest:
       type: object
       properties:
         trip_start_datetime:
@@ -36,14 +36,34 @@ components:
           type: string
           format: date-time
           description: The end date time of the trip, following the date-time notation as defined by RFC 3339, section 5.6. For example, 2017-08-21T17:32:28Z.
-        origin:
-          $ref: '#/components/schemas/location'
-          description: The origin of the trip.
-        destination:
-          $ref: '#/components/schemas/location'
-          description: The destination of the trip.
+        origin_name:
+          type: string
+          description: The name of the origin of the trip.
+        origin_lat:
+          type: number
+          minimum: -90
+          maximum: 90
+          description: The latitude of the origin location of the trip.
+        origin_lng:
+          type: number
+          minimum: -180
+          maximum: 180
+          description: The longitude of the origin location of the trip.
+        destination_name:
+          type: string
+          description: The name of the destination of the trip.
+        destination_lat:
+          type: number
+          minimum: -90
+          maximum: 90
+          description: The latitude of the destination location of the trip.
+        destination_lng:
+          type: number
+          minimum: -180
+          maximum: 180
+          description: The longitude of the destination location of the trip.
         traveler_information:
-          $ref: '#/components/schemas/travelerInformation'
+          $ref: '#/components/schemas/TravelerInformation'
           description: Information on the number of travelers of different types in this trip.
         selected_accommodation_tags:
           type: array
@@ -187,25 +207,32 @@ components:
       required:
         - trip_start_datetime
         - trip_end_datetime
-        - origin
-        - destination
-    itineraryResponse:
+        - origin_name
+        - origin_lat
+        - origin_lng
+        - destination_name
+        - destination_lat
+        - destination_lng
+    ItineraryResponse:
       type: object
       properties:
         solution:
-          $ref: '#/components/schemas/itinerarySolution'
+          $ref: '#/components/schemas/ItinerarySolution'
           description: The detailed solution object to the itinerary request.
-    itinerarySolution:
+        deeplink:
+          type: string
+          description: The url to a webpage in which users can view and further customize the trip.
+    ItinerarySolution:
       type: object
       properties:
         activities:
           type: array
           items:
-            $ref: '#/components/schemas/itineraryActivity'
+            $ref: '#/components/schemas/ItineraryActivity'
           description: The planned activities in the itinerary solution.
       required:
         - activities
-    itineraryActivity:
+    ItineraryActivity:
       type: object
       properties:
         name:
@@ -219,11 +246,14 @@ components:
           type: integer
           format: int64
           description: The scheduled end time of the activity in UNIX timestamp.
+        source:
+          $ref: '#/components/schemas/Source'
+          description: The source object for the activity in the solution.
       required:
         - name
         - scheduled_start_time
         - scheduled_end_time
-    travelerInformation:
+    TravelerInformation:
       type: object
       properties:
         adults:
@@ -243,7 +273,7 @@ components:
           description: The number of infants (under age 2) in the trip.
       required:
         - adults
-    location:
+    TripLocation:
       type: object
       properties:
         name:
@@ -263,3 +293,18 @@ components:
         - name
         - lat
         - lng
+    Source:
+      type: object
+      properties:
+        content:
+          $ref: '#/components/schemas/Content'
+          description: The content object for the activity in the itinerary.
+    Content:
+      type: object
+      properties:
+        website:
+          type: string
+          description: The url to the activity's website.
+        booking_url:
+          type: string
+          description: The booking link for booking this activity.
