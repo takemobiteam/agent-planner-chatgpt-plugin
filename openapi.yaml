@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Mobi Agent Trip Planner Plugin
-  description: Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights..
+  description: Plugin for planning, building, and scheduling a travel or trip itinerary or plan. You can set the origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights. Can also be used to edit, replan and reschedule an existing trip.
   version: 'v1'
 servers:
   - url: https://proxy.takemobi.io
