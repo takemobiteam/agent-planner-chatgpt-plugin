@@ -1,21 +1,71 @@
 openapi: 3.0.1
 info:
-  title: Mobi Agent Trip Planner Plugin
-  description: Plugin for planning an travel itinerary. You can set the origin origin, trip destination, dates, travelers, as well as preferences on stay, dining, experiences and flights..
+  title: Mobi Trip Planner
+  description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.
   version: 'v1'
 servers:
-  - url: https://proxy.takemobi.io
+  - url: https://fareportal-staging.takemobi.io
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
-      operationId: createItinerary
-      summary: Create a travel itinerary
+      operationId: createOrUpdateItinerary
+      summary: Based on the provided trip origin, destination, dates and preferences, create a step-by-step travel itinerary, or update one with new preferences. The response includes an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ItineraryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/recommendation:
+    post:
+      operationId: getRecommendation
+      summary: Based on the provided trip destination and preferences, create a set of recommendations for the selected category of activities. The response will include a list of recommended activities, names, links, but no images.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivityRecommendationRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActivityRecommendationResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/activity:
+    post:
+      operationId: addActivityToItinerary
+      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddActivityRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
+    delete:
+      operationId: deleteActivityFromItinerary
+      summary: Remove the provided activity from the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RemoveActivityRequest'
       responses:
         "200":
           description: OK
@@ -62,6 +112,12 @@ components:
           minimum: -180
           maximum: 180
           description: The longitude of the destination location of the trip.
+        selected_activities:
+          type: array
+          items: {
+            type: string
+          }
+          description: An array of names of selected activities that should be included in the planned itienrary when possible.
         traveler_information:
           $ref: '#/components/schemas/TravelerInformation'
           description: Information on the number of travelers of different types in this trip.
@@ -225,9 +281,253 @@ components:
         - destination_name
         - destination_lat
         - destination_lng
+    ActivityRecommendationRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        category:
+          type: string
+          enum: [
+              "ACCOMMODATION",
+              "DINING",
+              "FLIGHT",
+              "EXPERIENCE",
+            ]
+          description: The category of activities to recommend for the trip.
+        trip_start_datetime:
+          type: string
+          format: date
+          description: The start date of the trip. For example, 2017-07-21.
+        trip_end_datetime:
+          type: string
+          format: date
+          description: The end date of the trip. For example, 2017-08-21.
+        origin_name:
+          type: string
+          description: The name of the origin of the trip.
+        origin_lat:
+          type: number
+          minimum: -90
+          maximum: 90
+          description: The latitude of the origin location of the trip.
+        origin_lng:
+          type: number
+          minimum: -180
+          maximum: 180
+          description: The longitude of the origin location of the trip.
+        destination_name:
+          type: string
+          description: The name of the destination of the trip.
+        destination_lat:
+          type: number
+          minimum: -90
+          maximum: 90
+          description: The latitude of the destination location of the trip.
+        destination_lng:
+          type: number
+          minimum: -180
+          maximum: 180
+          description: The longitude of the destination location of the trip.
+        selected_accommodation_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Hotel",
+              "Motel",
+              "Hotel Resort",
+              "Inn",
+              "Bed & Breakfast",
+              "Guest House",
+              "Condo",
+              "All-Inclusive",
+              "Cabin",
+              "Chalet",
+              "Cottage",
+              "Ranch",
+              "Villa",
+              "Lodge",
+              "Apartment",
+              "Private Vacation Home",
+              "House Boat",
+              "Ryokan",
+              "Tree House",
+              "Apart-hotel",
+              "Condominium Resort",
+              "Caravan Park",
+              "Riad",
+              "Country House",
+              "Pension",
+              "Residence",
+              "TownHouse",
+              "Castle",
+              "Palace",
+              "5 star hotel",
+              "4.5 star hotel",
+              "4 star hotel",
+              "3.5 star hotel",
+              "3 star hotel",
+              "2.5 star hotel",
+              "2 star hotel",
+              "Marriott",
+              "Hilton Hotels",
+              "IHG",
+              "Hyatt Hotels",
+              "Best Western",
+              "Ritz-Carlton",
+              "Four Seasons"
+            ]
+          }
+          description: A list of accommodation related tags that describe the desired accommodation options in the trip.
+        selected_activity_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Scuba diving",
+              "Photoshoot",
+              "People watching",
+              "Fishing",
+              "Amusement park",
+              "Massage & spa",
+              "Museum",
+              "Picnic",
+              "Hot spring",
+              "Snorkeling",
+              "Skiing",
+              "Ice skating",
+              "Walking",
+              "Food & drinks",
+              "Karaoke",
+              "Fireworks",
+              "Sky diving",
+              "Trip",
+              "Food & tasting",
+              "Rock climbing",
+              "Hiking",
+              "Swimming",
+              "Dancing",
+              "Biking",
+              "Lazer shooting game",
+              "Jogging",
+              "Escape room"
+            ]
+          }
+          description: A list of activity related tags that describe the desired activities to plan for the trip.
+        selected_dining_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Bib Gourmand",
+              "One MICHELIN Star",
+              "Two MICHELIN Stars",
+              "Three MICHELIN Stars",
+              "The MICHELIN Plate",
+              "Beach",
+              "Buffet",
+              "Family Style",
+              "Jazz Bar",
+              "Live Music",
+              "Non-smoking restaurants",
+              "Outdoor Seating",
+              "Waterfront",
+              "Wheelchair Accessible",
+              "Halal",
+              "Vegan Options",
+              "Gluten Free Options",
+              "Vegetarian Friendly",
+              "Kosher",
+              "Sit down",
+              "Fast food",
+              "Cafe",
+              "Bar",
+              "Pub",
+              "Steakhouse",
+              "Deli",
+              "Grill",
+              "Diner",
+              "Gastropub",
+              "Brew Pub",
+              "Dining bars",
+              "Beer restaurants"
+            ]
+          }
+          description: A list of food and dining related tags that describe the desired dining options to plan for the trip.
+        selected_flight_tags:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "Economy",
+              "Premium Economy",
+              "Business",
+              "First",
+              "Non-stop",
+              "One-stop",
+              "Two-stop",
+              "Alaska Airlines",
+              "American Airlines",
+              "Delta",
+              "Hawaiian Airlines",
+              "JetBlue Airways",
+              "Southwest Airlines",
+              "United",
+              "Spirit Airlines",
+              "Sun Country Airlines",
+              "Frontier Airlines"
+            ]
+          }
+          description: A list of flight related tags that describe the desired flight options in the trip.
+      required:
+        - trip_start_datetime
+        - trip_end_datetime
+        - origin_name
+        - origin_lat
+        - origin_lng
+        - destination_name
+        - destination_lat
+        - destination_lng
+        - category
+        - session_id
+    AddActivityRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        activity_name:
+          type: string
+          description: The name of the activity to be added to the current itinerary.
+        date:
+          type: date
+          description: The preferred date for adding this activity.
+        time:
+          type: time
+          description: The preferred time of day for adding this activity.
+      required:
+        - session_id
+        - activity_name
+    RemoveActivityRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        activity_name:
+          type: string
+          description: The name of the activity to be removed from the current itinerary.
+      required:
+        - session_id
+        - activity_name
     ItineraryResponse:
       type: object
       properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
         activities:
           type: array
           items:
@@ -242,8 +542,48 @@ components:
           type: string
           description: The url to a webpage in which users can visualize and further customize the itinerary.
       required:
+        - session_id
         - activities
-        - deeplink
+        - price
+        - url
+    ActivityRecommendationResponse:
+      type: object
+      properties:
+        recommendation_sets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActivityRecommendationSet'
+          description: An array of recommended activity sets in the selected category for the trip. Each recommended activity set contains a theme and an array of activies recommended based on the provided trip preferences.
+      required:
+        - recommendation_sets
+    ActivityRecommendationSet:
+      type: object
+      properties:
+        theme:
+          type: string
+          description: The theme of this set of recommended activities.
+        activities:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendedActivity'
+          description: An array of recommended activities in the selected category for the trip.
+      required:
+        - theme
+        - activities
+    RecommendedActivity:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the activity.
+        more_information_url:
+          type: string
+          description: The url to the activity's website for more information.
+        booking_url:
+          type: string
+          description: The booking link for this activity.
+      required:
+        - name
     ItineraryActivity:
       type: object
       properties:
@@ -268,6 +608,31 @@ components:
         - name
         - scheduled_start_time
         - scheduled_end_time
+    ActivitySelection:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the selected activity.
+        category:
+          type: string
+          enum: [
+              "ACCOMMODATION",
+              "DINING",
+              "FLIGHT",
+              "EXPERIENCE",
+            ]
+          description: The category of the selected activity.
+        date:
+          type: string
+          format: date
+          description: The desired date of the selected activity.
+        time:
+          type: string
+          format: time
+          description: The desired time of the selected activity.
+      required:
+        - name
     TravelerInformation:
       type: object
       properties:
