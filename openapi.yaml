@@ -112,12 +112,12 @@ components:
           minimum: -180
           maximum: 180
           description: The longitude of the destination location of the trip.
-        selected_activities:
+        selected_poi_names:
           type: array
           items: {
             type: string
           }
-          description: An array of names of selected activities that should be included in the planned itienrary when possible.
+          description: An array of the names of activities that should be included in the planned itienrary.
         traveler_information:
           $ref: '#/components/schemas/TravelerInformation'
           description: Information on the number of travelers of different types in this trip.
