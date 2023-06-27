@@ -40,7 +40,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ActivityRecommendationResponse'
-  /mobility-planner/demo/v2/problem/chatgpt/activity:
+  /mobility-planner/demo/v2/problem/chatgpt/additional-activity:
     post:
       operationId: addActivityToItinerary
       summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
@@ -57,7 +57,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItineraryResponse'
-    delete:
+  /mobility-planner/demo/v2/problem/chatgpt/removed-activity:
+    post:
       operationId: deleteActivityFromItinerary
       summary: Remove the provided activity from the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
@@ -549,12 +550,16 @@ components:
     ActivityRecommendationResponse:
       type: object
       properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
         recommendation_sets:
           type: array
           items:
             $ref: '#/components/schemas/ActivityRecommendationSet'
           description: An array of recommended activity sets in the selected category for the trip. Each recommended activity set contains a theme and an array of activies recommended based on the provided trip preferences.
       required:
+        - session_id
         - recommendation_sets
     ActivityRecommendationSet:
       type: object
