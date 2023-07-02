@@ -9,7 +9,7 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
       operationId: createOrUpdateItinerary
-      summary: Based on the provided trip origin, destination, dates and preferences, create a step-by-step travel itinerary, or update one with new preferences. The response includes an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Based on the provided trip origin, destination, dates and preferences, create a step-by-step travel itinerary, or update one with new preferences. The response includes an activity-by-activity list for each day, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
@@ -178,33 +178,27 @@ components:
           items: {
             type: string,
             enum: [
-              "Scuba diving",
-              "Photoshoot",
-              "People watching",
-              "Fishing",
-              "Amusement park",
-              "Massage & spa",
-              "Museum",
-              "Picnic",
-              "Hot spring",
-              "Snorkeling",
-              "Skiing",
-              "Ice skating",
-              "Walking",
-              "Food & drinks",
-              "Karaoke",
-              "Fireworks",
-              "Sky diving",
-              "Trip",
-              "Food & tasting",
-              "Rock climbing",
-              "Hiking",
-              "Swimming",
-              "Dancing",
-              "Biking",
-              "Lazer shooting game",
-              "Jogging",
-              "Escape room"
+              "Attractions",
+              "Shopping",
+              "Sights & Landmarks",
+              "Museums",
+              "Nature & Parks",
+              "Activities",
+              "Outdoor Activities",
+              "Food & Drink",
+              "Tours",
+              "Fun & Games",
+              "Classes & Workshops",
+              "Concerts & Shows",
+              "Nightlife",
+              "Boat Tours & Water Sports",
+              "Traveler Resources",
+              "Spas & Wellness",
+              "Water & Amusement Parks",
+              "Casinos & Gambling",
+              "Nearby",
+              "Events",
+              "Zoos & Aquariums"
             ]
           }
           description: A list of activity related tags that describe the desired activities to plan for the trip.
