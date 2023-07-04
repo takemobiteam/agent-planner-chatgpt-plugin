@@ -119,9 +119,26 @@ components:
             type: string
           }
           description: An array of the names of activities that should be included in the planned itienrary.
-        traveler_information:
-          $ref: '#/components/schemas/TravelerInformation'
-          description: Information on the number of travelers of different types in this trip.
+        num_adults:
+          type: number
+          minimum: 1
+          maximum: 9
+          description: The number of adults in this trip.
+        num_children:
+          type: number
+          minimum: 0
+          maximum: 5
+          description: The number of children between age 2 to 17 in this trip.
+        num_infants:
+          type: number
+          minimum: 0
+          maximum: 4
+          description: The number of infants whose age is below 2 in this trip.
+        num_rooms:
+          type: number
+          minimum: 1
+          maximum: 9
+          description: The number of hotel rooms required for this trip.
         selected_accommodation_tags:
           type: array
           items: {
