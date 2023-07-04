@@ -9,7 +9,7 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
       operationId: createOrUpdateItinerary
-      summary: Based on the provided trip origin, destination, dates and preferences, create a step-by-step travel itinerary, or update one with new preferences. The response includes an activity-by-activity list for each day, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Based on the provided trip origin, destination, dates and preferences, create a step-by-step travel itinerary. The response includes a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
@@ -43,7 +43,7 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt/additional-activity:
     post:
       operationId: addActivityToItinerary
-      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
@@ -60,7 +60,7 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt/removed-activity:
     post:
       operationId: deleteActivityFromItinerary
-      summary: Remove the provided activity from the current itinerary. The response will be an updated itinerary, including an activity-by-activity list for each step, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Remove the provided activity from the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
