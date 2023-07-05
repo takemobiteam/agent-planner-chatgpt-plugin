@@ -43,7 +43,7 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt/additional-activity:
     post:
       operationId: addActivityToItinerary
-      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Add or select the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
@@ -271,6 +271,10 @@ components:
               "Non-stop",
               "One-stop",
               "Two-stop",
+              "Cheapest",
+              "Fastest",
+              "Early Arrival",
+              "Convenient Departure",
               "Alaska Airlines",
               "American Airlines",
               "Delta",
@@ -308,6 +312,16 @@ components:
               "EXPERIENCE",
             ]
           description: The category of activities to recommend for the trip.
+        sort_type:
+          type: string,
+          enum: [
+            "best_match",
+            "price_high",
+            "price_low",
+            "rating_high",
+            "duration_short"
+          ]
+          description: The sort order of the recommendations in the response. Default is best_match for the options that best match user preferences. price_high puts the most expensive options at the top, while price_low would put the cheapest options at the top. rating_high would put the options with the highest user ratings at the top, and duration_short would put the fastest options (only applicable to flights) at the top.
         trip_start_datetime:
           type: string
           format: date
@@ -480,6 +494,10 @@ components:
               "Non-stop",
               "One-stop",
               "Two-stop",
+              "Cheapest",
+              "Fastest",
+              "Early Arrival",
+              "Convenient Departure",
               "Alaska Airlines",
               "American Airlines",
               "Delta",
@@ -514,11 +532,37 @@ components:
           type: string
           description: The name of the activity to be added to the current itinerary.
         date:
-          type: date
+          type: string
+          format: date
           description: The preferred date for adding this activity.
-        time:
-          type: time
-          description: The preferred time of day for adding this activity.
+        hour_of_day:
+          type: string,
+          enum: [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23"
+          ]
+          description: The preferred hour of the day for adding this activity.
       required:
         - session_id
         - activity_name
