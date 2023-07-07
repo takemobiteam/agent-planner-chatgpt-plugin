@@ -4,7 +4,7 @@ info:
   description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.
   version: 'v1'
 servers:
-  - url: https://fareportal-staging.takemobi.io
+  - url: http://localhost:3333
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
@@ -121,19 +121,51 @@ components:
           description: An array of the names of activities that should be included in the planned itienrary.
         num_adults:
           type: number
-          minimum: 1
+          minimum: 0
           maximum: 9
-          description: The number of adults in this trip.
+          description: The number of people (age 16 to 64) in this trip.
+        num_seniors:
+          type: number
+          minimum: 0
+          maximum: 9
+          description: The number of people (age 65 and up) in this trip.
         num_children:
           type: number
           minimum: 0
+          maximum: 8
+          description: The number of people between age 2 to 15 in this trip.
+        children_ages:
+          type: array
+          items: {
+            type: string,
+            enum: [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8",
+              "9",
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15"
+            ]
+          }
+          description: A list of ages for the children in the trip.
+        num_infants_on_seat:
+          type: number
+          minimum: 0
           maximum: 5
-          description: The number of children between age 2 to 17 in this trip.
-        num_infants:
+          description: The number of infants whose age is 2 or below in this trip and will occupy a seat.
+        num_infants_in_lap:
           type: number
           minimum: 0
           maximum: 4
-          description: The number of infants whose age is below 2 in this trip.
+          description: The number of infants whose age is 2 or below in this trip and will not occupy a seat.
         num_rooms:
           type: number
           minimum: 1
