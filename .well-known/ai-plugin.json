@@ -2,14 +2,14 @@
     "schema_version": "v1",
     "name_for_human": "Mobi Trip Planner",
     "name_for_model": "planner",
-    "description_for_human": "Plan an itinerary to anywhere in the world.",
-    "description_for_model": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.",
+    "description_for_human": "Plan a peronalized itinerary for your trip, from anywhere, to anywhere.",
+    "description_for_model": "This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known. This plugin creates a detailed, step-by-step trip plan. For each flight, hotel stay, dining or activity, the plugin will include its start time, end time, name, a booking url, and a more information url when applicable. When presenting an itinerary, always list flights, hotel stays, dinings and activities one by one, day by day, and include the booking url and the more information url when available. Make sure to include the total price of the trip as well as the url to manage the itinearry too. This plugin can also provide more recommendations in the flight, stay, dining and activity categories for the user's trips. Finally, the users could make changes to the created itinerary, either adding a new activity to it, or removing an existing activity from it.",
     "auth": {
         "type": "none"
     },
     "api": {
         "type": "openapi",
-        "url": "https://proxy.takemobi.io/openapi.yaml",
+        "url": "https://fareportal-staging.takemobi.io/openapi.yaml",
         "is_user_authenticated": false
     },
     "logo_url": "https://avatars.githubusercontent.com/u/5629839",
