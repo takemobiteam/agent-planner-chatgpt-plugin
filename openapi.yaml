@@ -23,6 +23,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItineraryResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/itinerary:
+    post:
+      operationId: getItineraryDetailsForDate
+      summary: Retrieve detailed, activity by activity itinerary for a day in an existing trip. The response includes a step-by-step list of activities planned for the provided date with booking links or more information links, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItineraryDetailRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
   /mobility-planner/demo/v2/problem/chatgpt/recommendation:
     post:
       operationId: getRecommendation
@@ -43,13 +60,30 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt/additional-activity:
     post:
       operationId: addActivityToItinerary
-      summary: Add or select the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/AddActivityRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/selected-activity:
+    post:
+      operationId: selectAlternativeActivityForItinerary
+      summary: Select the provided alternative activity (flights or accommodation) for the trip and return the updated itinerary. The response will include a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SelectActivityRequest'
       responses:
         "200":
           description: OK
@@ -554,6 +588,28 @@ components:
         - destination_lng
         - category
         - session_id
+    SelectActivityRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        activity_name:
+          type: string
+          description: The name of the activity selected for the current itinerary.
+        category:
+          type: string
+          enum: [
+              "ACCOMMODATION",
+              "DINING",
+              "FLIGHT",
+              "EXPERIENCE",
+            ]
+          description: The category of the activity selected for the current itinerary.
+      required:
+        - session_id
+        - activity_name
+        - category
     AddActivityRequest:
       type: object
       properties:
@@ -598,6 +654,19 @@ components:
       required:
         - session_id
         - activity_name
+    ItineraryDetailRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        date:
+          type: string
+          format: date
+          description: The date for which detailed itinerary should be returned.
+      required:
+        - session_id
+        - date
     RemoveActivityRequest:
       type: object
       properties:
