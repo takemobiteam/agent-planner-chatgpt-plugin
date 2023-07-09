@@ -4,7 +4,7 @@ info:
   description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.
   version: 'v1'
 servers:
-  - url: https://fareportal-staging.takemobi.io
+  - url: http://localhost:3333
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
@@ -16,6 +16,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ItineraryRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/itinerary:
+    post:
+      operationId: getItineraryDetailsForDate
+      summary: Retrieve detailed, activity by activity itinerary for a day in an existing trip. The response includes a step-by-step list of activities planned for the provided date with booking links or more information links, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItineraryDetailRequest'
       responses:
         "200":
           description: OK
@@ -43,7 +60,24 @@ paths:
   /mobility-planner/demo/v2/problem/chatgpt/additional-activity:
     post:
       operationId: addActivityToItinerary
-      summary: Add or select the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
+      summary: Add the provided activity to the current itinerary. The response will be an updated itinerary, including a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddActivityRequest'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItineraryResponse'
+  /mobility-planner/demo/v2/problem/chatgpt/selected-activity:
+    post:
+      operationId: selectAlternativeActivityForItinerary
+      summary: Select the provided alternative activity (flights or accommodation) for the trip and return the updated itinerary. The response will include a step-by-step list of activities with booking links or more information links, a total price for the trip, and a url to a webpage for managing the itinerary.
       requestBody:
         required: true
         content:
@@ -598,6 +632,19 @@ components:
       required:
         - session_id
         - activity_name
+    ItineraryDetailRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        date:
+          type: string
+          format: date
+          description: The date for which detailed itinerary should be returned.
+      required:
+        - session_id
+        - date
     RemoveActivityRequest:
       type: object
       properties:
