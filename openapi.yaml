@@ -83,7 +83,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddActivityRequest'
+              $ref: '#/components/schemas/SelectActivityRequest'
       responses:
         "200":
           description: OK
@@ -588,6 +588,28 @@ components:
         - destination_lng
         - category
         - session_id
+    SelectActivityRequest:
+      type: object
+      properties:
+        session_id:
+          type: string
+          description: A unique identifier for the current itinerary planning session.
+        activity_name:
+          type: string
+          description: The name of the activity selected for the current itinerary.
+        category:
+          type: string
+          enum: [
+              "ACCOMMODATION",
+              "DINING",
+              "FLIGHT",
+              "EXPERIENCE",
+            ]
+          description: The category of the activity selected for the current itinerary.
+      required:
+        - session_id
+        - activity_name
+        - category
     AddActivityRequest:
       type: object
       properties:
