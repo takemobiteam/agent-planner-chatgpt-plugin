@@ -4,7 +4,7 @@ info:
   description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known.
   version: 'v1'
 servers:
-  - url: http://localhost:3333
+  - url: https://fareportal-staging.takemobi.io
 paths:
   /mobility-planner/demo/v2/problem/chatgpt:
     post:
