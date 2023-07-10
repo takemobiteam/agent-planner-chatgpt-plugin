@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Mobi Trip Planner
-  description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known. Do not combine this plugin with other plugins whila answering a user's question or a user's request.
+  description: This plugin provides itinerary planning capabilities. This plugin should be called when the user requests an itinerary or trip plan, which includes flights, restaurants, events, and attractions, when the latitude/longitude of the user's origin and destinations are known, and when the start and end dates of the trips are known. Do not combine this plugin with other plugins whila answering a user's question or a user's request.
   version: 'v1'
 servers:
   - url: https://fareportal-staging.takemobi.io
