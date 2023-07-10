@@ -147,12 +147,24 @@ components:
           minimum: -180
           maximum: 180
           description: The longitude of the destination location of the trip.
-        selected_poi_names:
+        selected_accommodation_option_names:
           type: array
           items: {
             type: string
           }
-          description: An array of the names of activities that should be included in the planned itienrary.
+          description: An array of the names of accommodation options that should be included in the planned itienrary.
+        selected_dining_option_names:
+          type: array
+          items: {
+            type: string
+          }
+          description: An array of the names of dining options and restaurants that should be included in the planned itienrary.
+        selected_activity_option_names:
+          type: array
+          items: {
+            type: string
+          }
+          description: An array of the names of attractions, experiences and activities that should be included in the planned itienrary.
         num_adults:
           type: number
           minimum: 0
